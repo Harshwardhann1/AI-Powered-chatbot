@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { chatbotService } from '../services/chatbot.service';
-import { Message } from '../models/conversation.model';
+import { Message } from '../models/message.model';
 
 export const handleChat = async (req: Request, res: Response): Promise<any> => {
   const { message } = req.body;

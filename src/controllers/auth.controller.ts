@@ -25,6 +25,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
     const token = await AuthService.login(req.body);
     res.json({ token });
   } catch (err: any) {
+    console.log('This is the error______',err)
     res.status(401).json({ message: err.message });
   }
 };

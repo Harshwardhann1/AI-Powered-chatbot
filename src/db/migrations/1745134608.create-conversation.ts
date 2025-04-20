@@ -1,29 +1,33 @@
-import { QueryInterface, DataTypes } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
 export = {
-  up: async (queryInterface: QueryInterface) => {
+  up: async ({ context: queryInterface }: { context: any }) => {
     await queryInterface.createTable('Messages', {
-      id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+      id: { 
+        type: DataTypes.INTEGER, 
+        autoIncrement: true, 
+        primaryKey: true 
+      },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: { model: 'Users', key: 'id' },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       role: {
         type: DataTypes.ENUM('user', 'bot'),
-        allowNull: false
+        allowNull: false,
       },
       content: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
       },
       createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE
+      updatedAt: DataTypes.DATE,
     });
   },
 
-  down: async (queryInterface: QueryInterface) => {
+  down: async ({ context: queryInterface }: { context: any }) => {
     await queryInterface.dropTable('Messages');
-  }
+  },
 };
