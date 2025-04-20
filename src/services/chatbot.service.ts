@@ -1,6 +1,6 @@
 
 import { getChatbotChain } from '../config/chain.config';
-import { Message } from '../models/conversation.model';
+import { Message } from '../models/message.model';
 import { getIO } from '../socket';
 
 const chatbot = getChatbotChain();
