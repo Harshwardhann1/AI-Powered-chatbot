@@ -1,27 +1,22 @@
-
-import { getChatbotChain } from '../config/chain.config';
+import { cohereChat } from './cohere.service';
 import { Message } from '../models/message.model';
 import { getIO } from '../socket';
 
-const chatbot = getChatbotChain();
-
-const fallbackTriggers = [
-  "i don't know",
-  "i'm not sure",
-  "i cannot help with that",
-  "please contact support"
+const fallbackKeywords = [
+  'don\'t know', 'not sure', 'cannot help', 'unable to assist', 
+  'no idea', 'sorry', 'contact support', 'don’t understand'
 ];
 
 function isFallbackReply(text: string): boolean {
-  return fallbackTriggers.some(trigger => text.toLowerCase().includes(trigger));
+  const textLower = text.toLowerCase();
+  return fallbackKeywords.some(keyword => textLower.includes(keyword));
 }
 
 export const chatbotService = {
-  async processMessage(userId: number, message: string): Promise<{ reply: string, escalated: boolean }> {
+  async processMessage(userId: number, message: string): Promise<{ reply: string; escalated: boolean }> {
     await Message.create({ userId, role: 'user', content: message });
 
-    const response = await chatbot.call({ input: message });
-    const botReply = response.response;
+    const botReply = await cohereChat(message);
 
     await Message.create({ userId, role: 'bot', content: botReply });
 
