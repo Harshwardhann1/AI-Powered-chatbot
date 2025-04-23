@@ -2,7 +2,6 @@ import express from 'express';
 import authRoutes from './routes/auth.routes';
 import chatRoutes from './routes/chat.routes'
 
-
 const app = express();
 app.use(express.json());
 
